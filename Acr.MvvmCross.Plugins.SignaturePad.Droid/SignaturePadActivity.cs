@@ -15,16 +15,16 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
 
     [Activity]
     public class SignaturePadActivity : Activity {
-		private static readonly string fileStore;
-		private SignaturePadView signatureView;
+        private static readonly string fileStore;
+        private SignaturePadView signatureView;
         private Button btnSave;
         private Button btnCancel;
 
 
-		static SignaturePadActivity() {
-			var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-			fileStore = Path.Combine(path, "signature.tmp");
-		}
+        static SignaturePadActivity() {
+            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            fileStore = Path.Combine(path, "signature.tmp");
+        }
 
 
         protected override void OnCreate(Bundle bundle) {
@@ -36,14 +36,14 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
             this.btnSave = this.FindViewById<Button>(Resource.Id.btnSave);
             this.btnCancel = this.FindViewById<Button>(Resource.Id.btnCancel);
 
-			var cfg = this.Resolve().CurrentConfig;
+            var cfg = this.Resolve().CurrentConfig;
             rootView.SetBackgroundColor(cfg.BackgroundColor.ToAndroidColor());
             this.signatureView.BackgroundColor = cfg.SignatureBackgroundColor.ToAndroidColor();
             this.signatureView.Caption.Text = cfg.CaptionText;
             this.signatureView.Caption.SetTextColor(cfg.CaptionTextColor.ToAndroidColor());
             this.signatureView.ClearLabel.Text = cfg.ClearText;
             this.signatureView.ClearLabel.SetTextColor(cfg.ClearTextColor.ToAndroidColor());
-            this.signatureView.SignatureLineColor = cfg.SignatureLineColor.ToAndroidColor(); 
+            this.signatureView.SignatureLineColor = cfg.SignatureLineColor.ToAndroidColor();
             this.signatureView.SignaturePrompt.Text = cfg.PromptText;
             this.signatureView.SignaturePrompt.SetTextColor(cfg.PromptTextColor.ToAndroidColor());
             this.signatureView.StrokeColor = cfg.StrokeColor.ToAndroidColor();
@@ -68,9 +68,9 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
         }
 
 
-		private DroidSignatureService Resolve() {
-			return Mvx.Resolve<ISignatureService>() as DroidSignatureService;
-		}
+        private DroidSignatureService Resolve() {
+            return Mvx.Resolve<ISignatureService>() as DroidSignatureService;
+        }
 
 
         private void OnSave(object sender, EventArgs args) {
@@ -81,29 +81,29 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
                 .Points
                 .Select(x => new DrawPoint(x.X, x.Y));
 
-			var service = this.Resolve();
+            var service = this.Resolve();
 
             using (var image = this.signatureView.GetImage()) {
-				using (var fs = new FileStream(fileStore, FileMode.Create)) {
-					var format = service.CurrentConfig.ImageType == ImageFormatType.Png
+                using (var fs = new FileStream(fileStore, FileMode.Create)) {
+                    var format = service.CurrentConfig.ImageType == ImageFormatType.Png
                         ? Android.Graphics.Bitmap.CompressFormat.Png
                         : Android.Graphics.Bitmap.CompressFormat.Jpeg;
                     image.Compress(format, 100, fs);
                 }
             }
 
-			this.Finish();
-			service.Complete(new SignatureResult(
-				false, 
-				() => new FileStream(fileStore, FileMode.Open, FileAccess.Read, FileShare.Read), 
-				points
-			));
+            this.Finish();
+            service.Complete(new SignatureResult(
+                false,
+                () => new FileStream(fileStore, FileMode.Open, FileAccess.Read, FileShare.Read),
+                points
+            ));
         }
 
 
         private void OnCancel(object sender, EventArgs args) {
-			this.Resolve().Cancel();
-			this.Finish();
+            this.Resolve().Cancel();
+            this.Finish();
         }
     }
 }
