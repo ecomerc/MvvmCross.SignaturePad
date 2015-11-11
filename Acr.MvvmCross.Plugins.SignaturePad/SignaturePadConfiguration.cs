@@ -31,7 +31,6 @@ namespace Acr.MvvmCross.Plugins.SignaturePad {
             this.ImageType = ImageFormatType.Png;
             this.BackgroundColor = MvxColors.White;
             this.BackgroundImageAlpha = 1;
-            
             this.CaptionTextColor = MvxColors.Black;
             this.ClearTextColor = MvxColors.Black;
             this.PromptTextColor = MvxColors.White;

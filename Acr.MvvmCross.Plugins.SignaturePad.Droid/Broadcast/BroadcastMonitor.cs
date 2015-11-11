@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+using System.IO;
+using System.Linq;
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Broadcast {
     using Android.Content;
@@ -41,6 +33,8 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Broadcast {
                 }
 
             }
+            Android.App.Application.Context.UnregisterReceiver(this);
+
         }
 
 

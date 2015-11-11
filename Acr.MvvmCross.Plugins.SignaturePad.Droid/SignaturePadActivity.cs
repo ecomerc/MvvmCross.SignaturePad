@@ -26,12 +26,16 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
         static SignaturePadActivity() {
             var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             fileStore = Path.Combine(path, "signature.tmp");
+
         }
 
 
         protected override void OnCreate(Bundle bundle) {
             base.OnCreate(bundle);
             this.SetContentView(Resource.Layout.SignaturePad);
+
+            //TODO Load this somehow.
+            this.currentConfig = new SignaturePadConfiguration();
 
             var rootView = this.FindViewById<RelativeLayout>(Resource.Id.rootView);
             this.signatureView = this.FindViewById<SignaturePadView>(Resource.Id.signatureView);

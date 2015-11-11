@@ -32,7 +32,9 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
 			//var activity = Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity;
 
             var intent = new Android.Content.Intent(Android.App.Application.Context, typeof(SignaturePadActivity));
-            
+            intent.AddFlags(Android.Content.ActivityFlags.NewTask); //NOT RECOMMENDED; BUT NECCESSARY
+            var recieverIntent = new Android.Content.IntentFilter("acr.mvvmcross.plugins.signaturepad.droid.SIGNATURE");
+            Android.App.Application.Context.RegisterReceiver(new Broadcast.SignatureReceiver(), recieverIntent);
             Android.App.Application.Context.StartActivity(intent);
 
 			return this.tcs.Task;
