@@ -6,6 +6,7 @@ using UIKit;
 using Foundation;
 using Cirrious.MvvmCross.Plugins.Color;
 using Cirrious.MvvmCross.Plugins.Color.Touch;
+using Splat;
 
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
@@ -36,6 +37,8 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
 
             this.view.BackgroundColor = this.config.BackgroundColor.ToNativeColor();
             this.view.Signature.BackgroundColor = this.config.SignatureBackgroundColor.ToNativeColor();
+            this.view.Signature.BackgroundImageView.Image = this.config.BackgroundImage.ToNative();
+            this.view.Signature.BackgroundImageView.Alpha = this.config.BackgroundImageAlpha;
             this.view.Signature.Caption.TextColor = this.config.CaptionTextColor.ToNativeColor();
             this.view.Signature.Caption.Text = this.config.CaptionText;
             this.view.Signature.ClearLabel.SetTitle(this.config.ClearText, UIControlState.Normal);
@@ -58,14 +61,14 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
                     .Points
                     .Select(x => new DrawPoint((float)x.X, (float)x.Y));
 
-				var tempPath = GetTempFilePath();
+                var tempPath = GetTempFilePath();
                 using (var image = this.view.Signature.GetImage()) 
                     using (var stream = GetImageStream(image, this.config.ImageType))
-						using (var fs = new FileStream(tempPath, FileMode.Create)) 
-							stream.CopyTo(fs);
+                        using (var fs = new FileStream(tempPath, FileMode.Create)) 
+                            stream.CopyTo(fs);
 
-				this.DismissViewController(true, null);
-				this.onResult(new SignatureResult(false, () => new FileStream(tempPath, FileMode.Open, FileAccess.Read, FileShare.Read), points));
+                this.DismissViewController(true, null);
+                this.onResult(new SignatureResult(false, () => new FileStream(tempPath, FileMode.Open, FileAccess.Read, FileShare.Read), points));
             };
 
             this.view.CancelButton.SetTitle(this.config.CancelText, UIControlState.Normal);
@@ -76,14 +79,14 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
         }
 
 
-		private static string GetTempFilePath() {
-			var documents = UIDevice.CurrentDevice.CheckSystemVersion(8, 0)
-				? NSFileManager.DefaultManager.GetUrls (NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0].Path
-				: Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static string GetTempFilePath() {
+            var documents = UIDevice.CurrentDevice.CheckSystemVersion(8, 0)
+                ? NSFileManager.DefaultManager.GetUrls (NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0].Path
+                : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-			var tempPath = Path.Combine(documents, "..", "tmp");
-			return Path.Combine(tempPath, "Signature.tmp");
-		}
+            var tempPath = Path.Combine(documents, "..", "tmp");
+            return Path.Combine(tempPath, "Signature.tmp");
+        }
 
 
         private static Stream GetImageStream(UIImage image, ImageFormatType formatType) {

@@ -29,8 +29,11 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
 
 			this.tcs = new TaskCompletionSource<SignatureResult>();
 			cancelToken.Register(this.Cancel);
-			var activity = Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity;
-			activity.StartActivity(typeof(SignaturePadActivity));
+			//var activity = Mvx.Resolve<IMvxAndroidCurrentTopActivity>().Activity;
+
+            var intent = new Android.Content.Intent(Android.App.Application.Context, typeof(SignaturePadActivity));
+            
+            Android.App.Application.Context.StartActivity(intent);
 
 			return this.tcs.Task;
 		}

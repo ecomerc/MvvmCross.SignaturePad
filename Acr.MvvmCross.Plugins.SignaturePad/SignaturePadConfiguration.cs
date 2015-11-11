@@ -30,6 +30,8 @@ namespace Acr.MvvmCross.Plugins.SignaturePad {
         public SignaturePadConfiguration() {
             this.ImageType = ImageFormatType.Png;
             this.BackgroundColor = MvxColors.White;
+            this.BackgroundImageAlpha = 1;
+            
             this.CaptionTextColor = MvxColors.Black;
             this.ClearTextColor = MvxColors.Black;
             this.PromptTextColor = MvxColors.White;
@@ -54,6 +56,8 @@ namespace Acr.MvvmCross.Plugins.SignaturePad {
         public MvxColor BackgroundColor { get; set; }
 
         public Splat.IBitmap BackgroundImage { get; set; }
+
+        public float BackgroundImageAlpha { get; set; }
 
         public MvxColor SignatureBackgroundColor { get; set; }
         public MvxColor SignatureLineColor { get; set; }

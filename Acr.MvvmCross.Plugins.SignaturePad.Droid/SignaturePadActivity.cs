@@ -9,16 +9,18 @@ using Android.Views;
 using Cirrious.MvvmCross.Plugins.Color.Droid;
 using Cirrious.CrossCore;
 using SignaturePad;
-
+using Splat;
+using Android.Content;
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
 
-    [Activity]
+    [Activity(Process = ":AcrMvxSignaturePad")]
     public class SignaturePadActivity : Activity {
         private static readonly string fileStore;
         private SignaturePadView signatureView;
         private Button btnSave;
         private Button btnCancel;
+        private SignaturePadConfiguration currentConfig;
 
 
         static SignaturePadActivity() {
@@ -36,9 +38,10 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
             this.btnSave = this.FindViewById<Button>(Resource.Id.btnSave);
             this.btnCancel = this.FindViewById<Button>(Resource.Id.btnCancel);
 
-            var cfg = this.Resolve().CurrentConfig;
+            var cfg = currentConfig;
             rootView.SetBackgroundColor(cfg.BackgroundColor.ToAndroidColor());
             this.signatureView.BackgroundColor = cfg.SignatureBackgroundColor.ToAndroidColor();
+            //this.signatureView.BackgroundImageView.SetImage();
             this.signatureView.Caption.Text = cfg.CaptionText;
             this.signatureView.Caption.SetTextColor(cfg.CaptionTextColor.ToAndroidColor());
             this.signatureView.ClearLabel.Text = cfg.ClearText;
@@ -67,12 +70,6 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
             this.btnCancel.Click -= this.OnCancel;
         }
 
-
-        private DroidSignatureService Resolve() {
-            return Mvx.Resolve<ISignatureService>() as DroidSignatureService;
-        }
-
-
         private void OnSave(object sender, EventArgs args) {
             if (this.signatureView.IsBlank)
                 return;
@@ -81,28 +78,39 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
                 .Points
                 .Select(x => new DrawPoint(x.X, x.Y));
 
-            var service = this.Resolve();
+            //var service = this.Resolve();
 
             using (var image = this.signatureView.GetImage()) {
                 using (var fs = new FileStream(fileStore, FileMode.Create)) {
-                    var format = service.CurrentConfig.ImageType == ImageFormatType.Png
+                    var format = currentConfig.ImageType == ImageFormatType.Png
                         ? Android.Graphics.Bitmap.CompressFormat.Png
                         : Android.Graphics.Bitmap.CompressFormat.Jpeg;
                     image.Compress(format, 100, fs);
                 }
             }
+            
 
-            this.Finish();
+           
+            var intent = new Intent("acr.mvvmcross.plugins.signaturepad.droid.SIGNATURE");
+            intent.PutExtra("fileStore", fileStore);
+            intent.PutExtra("points", points.Select(i => i.ToString()).ToArray());
+            SendBroadcast(intent);
+            /*
             service.Complete(new SignatureResult(
                 false,
                 () => new FileStream(fileStore, FileMode.Open, FileAccess.Read, FileShare.Read),
                 points
             ));
+*/
+
+            this.Finish();
         }
 
 
         private void OnCancel(object sender, EventArgs args) {
-            this.Resolve().Cancel();
+            var intent = new Intent("acr.mvvmcross.plugins.signaturepad.droid.SIGNATURE");
+            SendBroadcast(intent);
+
             this.Finish();
         }
     }

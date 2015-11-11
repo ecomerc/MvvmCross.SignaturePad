@@ -95,6 +95,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Bootstrap\ColorPluginBootstrap.cs" />
+    <Compile Include="Broadcast\BroadcastMonitor.cs" />
     <Compile Include="DroidSignatureService.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
