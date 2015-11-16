@@ -54,7 +54,7 @@ namespace Acr.MvvmCross.Plugins.SignaturePad {
 
         public MvxColor BackgroundColor { get; set; }
 
-        public Splat.IBitmap BackgroundImage { get; set; }
+        public string BackgroundImage { get; set; }
 
         public float BackgroundImageAlpha { get; set; }
 

@@ -97,6 +97,8 @@
     <Compile Include="Bootstrap\ColorPluginBootstrap.cs" />
     <Compile Include="Broadcast\BroadcastMonitor.cs" />
     <Compile Include="DroidSignatureService.cs" />
+    <Compile Include="Extensions\IntentExtensions.cs" />
+    <Compile Include="Extensions\SignaturePadConfigurationExtensions.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
