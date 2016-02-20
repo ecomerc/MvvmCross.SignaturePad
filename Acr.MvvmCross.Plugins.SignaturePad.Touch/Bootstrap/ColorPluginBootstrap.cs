@@ -1,9 +1,11 @@
-using Cirrious.CrossCore.Plugins;
+
+
+using MvvmCross.Platform.Plugins;
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Touch.Bootstrap
 {
     public class ColorPluginBootstrap
-        : MvxLoaderPluginBootstrapAction<Cirrious.MvvmCross.Plugins.Color.PluginLoader, Cirrious.MvvmCross.Plugins.Color.Touch.Plugin>
+        : MvxLoaderPluginBootstrapAction<global::MvvmCross.Plugins.Color.PluginLoader, global::MvvmCross.Plugins.Color.iOS.Plugin>
     {
     }
 }

@@ -32,7 +32,7 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
 //            if (new Version(MonoTouch.Constants.Version) >= new Version (7, 0)) {
                 var frame = this.Frame;
                 var sbframe = UIApplication.SharedApplication.StatusBarFrame;
-                var portrait = UIApplication.SharedApplication.StatusBarOrientation.HasFlag(UIDeviceOrientation.Portrait);
+                var portrait = UIApplication.SharedApplication.StatusBarOrientation.HasFlag(UIInterfaceOrientation.Portrait);
 
                 var width = portrait
                     ? frame.Size.Width
@@ -51,11 +51,13 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
                     : 0;
 
                 this.Frame = new RectangleF((float)x, (float)y, (float)width, (float)height);
-//            }
+            //            }
+
 
             ///Using different layouts for the iPhone and iPad, so setup device specific requirements here.
 //            if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone)
                 this.Signature.Frame = new RectangleF (10, 10, (float)Bounds.Width - 20, (float)Bounds.Height - 60);
+            this.Signature.BackgroundImageView.Frame = this.Signature.Bounds;
 //            else 
 //                this.Signature.Frame = new RectangleF (84, 84, Bounds.Width - 168, Bounds.Width / 2);
 //

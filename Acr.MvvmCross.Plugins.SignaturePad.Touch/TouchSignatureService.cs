@@ -1,8 +1,8 @@
+using MvvmCross.iOS.Views.Presenters;
+using MvvmCross.Platform;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Cirrious.CrossCore;
-using Cirrious.MvvmCross.Touch.Views.Presenters;
 
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
@@ -14,7 +14,7 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
 			var tcs = new TaskCompletionSource<SignatureResult>();
 			var controller = new MvxSignatureController(config, x => tcs.TrySetResult(x));
 
-			var presenter = Mvx.Resolve<IMvxTouchViewPresenter>();
+			var presenter = Mvx.Resolve<IMvxIosViewPresenter>();
 			presenter.PresentModalViewController(controller, true);
 			cancelToken.Register(() => {
 				tcs.TrySetCanceled();

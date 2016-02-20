@@ -1,6 +1,7 @@
+using MvvmCross.Platform;
+using MvvmCross.Platform.Plugins;
 using System;
-using Cirrious.CrossCore;
-using Cirrious.CrossCore.Plugins;
+
 
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {

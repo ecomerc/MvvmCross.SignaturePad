@@ -4,10 +4,7 @@ using System.Linq;
 using System.Drawing;
 using UIKit;
 using Foundation;
-using Cirrious.MvvmCross.Plugins.Color;
-using Cirrious.MvvmCross.Plugins.Color.Touch;
-using Splat;
-
+using MvvmCross.Plugins.Color.iOS;
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
 
@@ -37,8 +34,19 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
 
             this.view.BackgroundColor = this.config.BackgroundColor.ToNativeColor();
             this.view.Signature.BackgroundColor = this.config.SignatureBackgroundColor.ToNativeColor();
-            this.view.Signature.BackgroundImageView.Image = this.config.BackgroundImage.ToNative();
+            if (!string.IsNullOrWhiteSpace(this.config.BackgroundImage))
+                this.view.Signature.BackgroundImageView.Image = UIImage.FromFile(this.config.BackgroundImage);
             this.view.Signature.BackgroundImageView.Alpha = this.config.BackgroundImageAlpha;
+            
+            this.view.Signature.BackgroundImageView.Frame = this.view.Signature.Bounds;
+            this.view.Signature.BackgroundImageView.AutoresizingMask = UIViewAutoresizing.All;
+
+            if (this.config.BackgroundImageSize == SignaturePadBackgroundSize.Fill)
+                this.view.Signature.BackgroundImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+
+            if (this.config.BackgroundImageSize == SignaturePadBackgroundSize.Stretch)
+                this.view.Signature.BackgroundImageView.ContentMode = UIViewContentMode.ScaleToFill;
+
             this.view.Signature.Caption.TextColor = this.config.CaptionTextColor.ToNativeColor();
             this.view.Signature.Caption.Text = this.config.CaptionText;
             this.view.Signature.ClearLabel.SetTitle(this.config.ClearText, UIControlState.Normal);
@@ -62,10 +70,10 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
                     .Select(x => new DrawPoint((float)x.X, (float)x.Y));
 
                 var tempPath = GetTempFilePath();
-                using (var image = this.view.Signature.GetImage()) 
-                    using (var stream = GetImageStream(image, this.config.ImageType))
-                        using (var fs = new FileStream(tempPath, FileMode.Create)) 
-                            stream.CopyTo(fs);
+                using (var image = this.view.Signature.GetImage(this.config.CropImage))
+                using (var stream = GetImageStream(image, this.config.ImageType))
+                using (var fs = new FileStream(tempPath, FileMode.Create))
+                    stream.CopyTo(fs);
 
                 this.DismissViewController(true, null);
                 this.onResult(new SignatureResult(false, () => new FileStream(tempPath, FileMode.Open, FileAccess.Read, FileShare.Read), points));
@@ -81,7 +89,7 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
 
         private static string GetTempFilePath() {
             var documents = UIDevice.CurrentDevice.CheckSystemVersion(8, 0)
-                ? NSFileManager.DefaultManager.GetUrls (NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0].Path
+                ? NSFileManager.DefaultManager.GetUrls(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomain.User)[0].Path
                 : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             var tempPath = Path.Combine(documents, "..", "tmp");

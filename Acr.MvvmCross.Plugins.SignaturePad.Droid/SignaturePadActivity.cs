@@ -6,17 +6,15 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 using Android.Views;
-using Cirrious.MvvmCross.Plugins.Color.Droid;
-using Cirrious.CrossCore;
 using SignaturePad;
-using Splat;
 using Android.Content;
 using Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions;
 using Android.Media;
+using MvvmCross.Plugins.Color.Droid;
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
 
-    [Activity(Process = ":AcrMvxSignaturePad")] //
+    [Activity()] //Process = ":AcrMvxSignaturePad"
     public class SignaturePadActivity : Activity {
         private static readonly string fileStore;
         private SignaturePadView signatureView;
@@ -33,7 +31,7 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
         }
 
 
-        protected async override void OnCreate(Bundle bundle) {
+        protected override void OnCreate(Bundle bundle) {
             RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(bundle);
             this.SetContentView(Resource.Layout.SignaturePad);
@@ -63,6 +61,8 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
             this.signatureView.StrokeColor = cfg.StrokeColor.ToAndroidColor();
             this.signatureView.StrokeWidth = cfg.StrokeWidth;
 
+            if (cfg.Points != null && cfg.Points.Count() > 0)
+                this.signatureView.LoadPoints(cfg.Points.Select(i => new PointF(i.X, i.Y)).ToArray());
 
             this.btnSave.Text = cfg.SaveText;
             this.btnCancel.Text = cfg.CancelText;
@@ -70,12 +70,19 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
                 this.btnCancel.Visibility = ViewStates.Invisible;
             }
 
-            var imageSize = GetBitmapSize(cfg.BackgroundImage);
-            if (imageSize.Width > imageSize.Height) {
-                actualOrientation = SignaturePadOrientation.Landscape;
-            } else {
-                actualOrientation = SignaturePadOrientation.Portrait;
+            var exif = new ExifInterface(cfg.BackgroundImage);
+            var orientation = exif.GetAttribute(ExifInterface.TagOrientation);
+
+            switch (orientation) {
+                case "1": // landscape
+                    actualOrientation = SignaturePadOrientation.Landscape;
+                    break;
+                case "6": // portrait
+                default:
+                    actualOrientation = SignaturePadOrientation.Portrait;
+                    break;
             }
+
 
 
             switch (actualOrientation) {
@@ -89,19 +96,25 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
             }
             this.signatureView.BackgroundImageView.LayoutParameters.Height = ViewGroup.LayoutParams.FillParent;
             this.signatureView.BackgroundImageView.LayoutParameters.Width = ViewGroup.LayoutParams.FillParent;
-            //= new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FillParent, ViewGroup.LayoutParams.FillParent);
             this.signatureView.BackgroundImageView.ViewTreeObserver.GlobalLayout += (sender, e) =>  //also tried with _View
             {
 
                 var newSize = new Size(this.signatureView.Width, this.signatureView.Height);
                 if (newSize.Width > 0 && !hasBackground) {
                     //Get a smaller image if needed (memory optimization)
-                    var bm = LoadAndResizeBitmap(cfg.BackgroundImage, imageSize, newSize);
+                    var bm = LoadAndResizeBitmap(cfg.BackgroundImage, newSize);
                     if (bm != null) {
                         this.signatureView.BackgroundImageView.SetImageBitmap(bm);
                         hasBackground = true;
-                        //Make the image as large as possible.
-                        this.signatureView.BackgroundImageView.SetScaleType(ImageView.ScaleType.CenterInside);
+                        switch (cfg.BackgroundImageSize) {
+                            case SignaturePadBackgroundSize.Fill:
+                                this.signatureView.BackgroundImageView.SetScaleType(ImageView.ScaleType.CenterInside);
+                                break;
+                            case SignaturePadBackgroundSize.Stretch:
+                                this.signatureView.BackgroundImageView.SetScaleType(ImageView.ScaleType.FitXy);
+                                break;
+
+                        }
                     }
                 }
             };
@@ -148,13 +161,6 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
             intent.PutExtra("fileStore", fileStore);
             intent.PutExtra("points", points.Select(i => i.ToString()).ToArray());
             SendBroadcast(intent);
-            /*
-            service.Complete(new SignatureResult(
-                false,
-                () => new FileStream(fileStore, FileMode.Open, FileAccess.Read, FileShare.Read),
-                points
-            ));
-*/
 
             this.Finish();
         }
@@ -174,12 +180,13 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
 
         }
 
-        private Android.Graphics.Bitmap LoadAndResizeBitmap(string fileName, Size originalSize, Size newSize) {
+        private Android.Graphics.Bitmap LoadAndResizeBitmap(string fileName, Size newSize) {
             // We calculate the ratio that we need to resize the image by
             // in order to fit the requested dimensions.
+            var originalSize = GetBitmapSize(fileName);
             var inSampleSize = 1.0;
 
-            if (newSize.Height <  originalSize.Height || newSize.Width < originalSize.Width) {
+            if (newSize.Height < originalSize.Height || newSize.Width < originalSize.Width) {
                 inSampleSize = newSize.Width > newSize.Height
                     ? newSize.Height / originalSize.Height
                         : newSize.Width / originalSize.Width;
@@ -192,33 +199,24 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid {
             // Now we will load the image and have BitmapFactory resize it for us.
             var resizedBitmap = Android.Graphics.BitmapFactory.DecodeFile(fileName, options);
 
-            /*
+
             // Images are being saved in landscape, so rotate them back to portrait if they were taken in portrait
             var mtx = new Android.Graphics.Matrix();
             var exif = new ExifInterface(fileName);
             var orientation = exif.GetAttribute(ExifInterface.TagOrientation);
 
             switch (orientation) {
-                case "6": // portrait
-                    mtx.PreRotate(90);
-                    resizedBitmap = Android.Graphics.Bitmap.CreateBitmap(resizedBitmap, 0, 0, resizedBitmap.Width, resizedBitmap.Height, mtx, false);
-                    mtx.Dispose();
-                    mtx = null;
-                    pictureOrientation = SignaturePadOrientation.Portrait;
-                    break;
                 case "1": // landscape
-                    pictureOrientation = SignaturePadOrientation.Landscape;
                     break;
+                case "6": // portrait
                 default:
                     mtx.PreRotate(90);
                     resizedBitmap = Android.Graphics.Bitmap.CreateBitmap(resizedBitmap, 0, 0, resizedBitmap.Width, resizedBitmap.Height, mtx, false);
                     mtx.Dispose();
                     mtx = null;
-                    pictureOrientation = SignaturePadOrientation.Portrait;
                     break;
             }
 
-    */
 
             return resizedBitmap;
         }

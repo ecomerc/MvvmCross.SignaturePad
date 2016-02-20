@@ -11,9 +11,14 @@ using Android.Views;
 using Android.Widget;
 using System.Linq.Expressions;
 using System.Reflection;
+using MvvmCross.Platform.UI;
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions {
     public static class IntentExtensions {
+
+        public static void GetExtra(this Intent intent, Expression<Func<MvxColor>> property) {
+            GetToProperty(property, (p, d) => new MvxColor(intent.GetIntExtra(p, d.ARGB)));
+        }
 
         public static void GetExtra(this Intent intent, Expression<Func<string>> property) {
             GetToProperty(property, (p) => intent.GetStringExtra(p));
@@ -26,13 +31,25 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions {
         public static void GetExtra(this Intent intent, Expression<Func<float>> property) {
             GetToProperty(property, (p, d) => intent.GetFloatExtra(p, d));
         }
+        public static void GetExtra(this Intent intent, Expression<Func<IEnumerable<DrawPoint>>> property) {
+            GetToProperty(property, (p, d) => {
+                
+                var list = intent.GetStringArrayExtra(p);
+                if (list != null && list.Count() > 0)
+                    return list.Select(i => DrawPoint.Parse(i));
+                else
+                    return null;
+            });
+        }
 
         public static void GetExtraEnum<TEnum>(this Intent intent, Expression<Func<TEnum>> property)
                                     where TEnum : struct {
             if (!typeof(TEnum).IsEnum) { throw new ArgumentException("TEnum must be an enumerated type"); }
 
-            //This should be a tryparse thing, big chance of failure here.
             GetToPropertyEnum(property, (p) => intent.GetStringExtra(p));
+        }
+        public static void PutExtra(this Intent intent, Expression<Func<MvxColor>> property) {
+            PutFromProperty(property, (p, v) => intent.PutExtra(p, v.ARGB));
         }
 
         public static void PutExtra(this Intent intent, Expression<Func<string>> property) {
@@ -44,6 +61,10 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions {
         }
         public static void PutExtra(this Intent intent, Expression<Func<float>> property) {
             PutFromProperty(property, (p, v) => intent.PutExtra(p, v));
+        }
+
+        public static void PutExtra(this Intent intent, Expression<Func<IEnumerable<DrawPoint>>> property) {
+            PutFromProperty(property, (p, v) => intent.PutExtra(p, v.Select(i => i.ToString()).ToArray()));
         }
 
         public static void PutExtraEnum<TEnum>(this Intent intent, Expression<Func<TEnum>> property)
@@ -63,53 +84,66 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions {
             var expression = GetMemberInfo(property);
             var path = PropertyPath(expression);
 
-            var pi = expression.Member as PropertyInfo;
-            var parent = Expression.Lambda(expression.Expression).Compile().DynamicInvoke();
             var @value = setter(path);
             TEnum enumValue;
             if (@value != null) {
                 if (Enum.TryParse(@value, true, out enumValue)) {
+
+                    var pi = expression.Member as PropertyInfo;
+                    var parent = Expression.Lambda(expression.Expression).Compile().DynamicInvoke();
+
                     pi.SetValue(parent, enumValue, null);
                 }
             }
 
         }
 
-        private static void GetToProperty<T>(Expression<Func<T>> property, Func<string, T> setter) {
+        private static void GetToProperty<T>(Expression<Func<T>> property, Func<string, T> getter) {
 
             var expression = GetMemberInfo(property);
             var path = PropertyPath(expression);
+            var @value = getter(path);
 
-            var pi = expression.Member as PropertyInfo;
-            var parent = Expression.Lambda(expression.Expression).Compile().DynamicInvoke();
-            var @value = setter(path);
             if (@value != null) {
-                pi.SetValue(parent, @value, null);
+
+                var pi = expression.Member as PropertyInfo;
+                var parent = Expression.Lambda(expression.Expression).Compile().DynamicInvoke();
+                if (@value != null) {
+                    pi.SetValue(parent, @value, null);
+                }
             }
 
         }
 
-        private static void GetToProperty<T>(Expression<Func<T>> property, Func<string, T, T> setter) {
+        private static void GetToProperty<T>(Expression<Func<T>> property, Func<string, T, T> getter) {
 
             var expression = GetMemberInfo(property);
             var path = PropertyPath(expression);
-            var pi = expression.Member as PropertyInfo;
-            var parent = Expression.Lambda(expression.Expression).Compile().DynamicInvoke();
+
             var compiled = property.Compile();
+            var @value = getter(path, compiled());
 
-            var @value = setter(path, compiled());
+            if (@value != null) {
 
-            pi.SetValue(parent, @value, null);
+                var pi = expression.Member as PropertyInfo;
+                var parent = Expression.Lambda(expression.Expression).Compile().DynamicInvoke();
 
+
+
+                pi.SetValue(parent, @value, null);
+            }
         }
 
         private static void PutFromProperty<T>(Expression<Func<T>> property, Action<string, T> setter) {
-            
-            var expression = GetMemberInfo(property);
-            var path = PropertyPath(expression);
-            var compiled = property.Compile();
 
-            setter(path, compiled());
+            var compiled = property.Compile();
+            var @value = compiled();
+            if (@value != null) {
+                var expression = GetMemberInfo(property);
+                var path = PropertyPath(expression);
+
+                setter(path, @value);
+            }
         }
 
         private static MemberExpression GetMemberInfo(Expression method) {
@@ -136,10 +170,9 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions {
             var names = new List<string>();
             while (expression != null) {
                 if (expression.Expression is ConstantExpression)
-                  break;
+                    break;
 
                 names.Add(expression.Member.Name);
-
                 expression = expression.Expression as MemberExpression;
             }
 

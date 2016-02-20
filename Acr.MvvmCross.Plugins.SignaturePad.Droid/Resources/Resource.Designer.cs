@@ -81,14 +81,11 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f030002
-			public static int ApplicationName = 2130903042;
-			
 			// aapt resource value: 0x7f030001
-			public static int Hello = 2130903041;
+			public static int ApplicationName = 2130903041;
 			
 			// aapt resource value: 0x7f030000
-			public static int library_name = 2130903040;
+			public static int Hello = 2130903040;
 			
 			static String()
 			{

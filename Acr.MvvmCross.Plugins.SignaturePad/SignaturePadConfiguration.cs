@@ -1,5 +1,5 @@
-﻿using System;
-using Cirrious.CrossCore.UI;
+﻿using MvvmCross.Platform.UI;
+using System;
 
 
 namespace Acr.MvvmCross.Plugins.SignaturePad {
@@ -31,6 +31,7 @@ namespace Acr.MvvmCross.Plugins.SignaturePad {
             this.ImageType = ImageFormatType.Png;
             this.BackgroundColor = MvxColors.White;
             this.BackgroundImageAlpha = 1;
+            this.BackgroundImageSize = SignaturePadBackgroundSize.Fill;
             this.CaptionTextColor = MvxColors.Black;
             this.ClearTextColor = MvxColors.Black;
             this.PromptTextColor = MvxColors.White;
@@ -38,6 +39,9 @@ namespace Acr.MvvmCross.Plugins.SignaturePad {
             this.StrokeWidth = 2f;
             this.SignatureBackgroundColor = MvxColors.White;
             this.SignatureLineColor = MvxColors.Black;
+            this.Orientation = SignaturePadOrientation.Automatic;
+            this.CropImage = true;
+            
 
             this.SaveText = "Save";
             this.CancelText = "Cancel";
@@ -58,6 +62,10 @@ namespace Acr.MvvmCross.Plugins.SignaturePad {
 
         public float BackgroundImageAlpha { get; set; }
 
+        public bool CropImage { get; set; }
+
+        public SignaturePadBackgroundSize BackgroundImageSize { get; set; }
+
         public MvxColor SignatureBackgroundColor { get; set; }
         public MvxColor SignatureLineColor { get; set; }
         
@@ -72,5 +80,9 @@ namespace Acr.MvvmCross.Plugins.SignaturePad {
 
         public float StrokeWidth { get; set; }
         public MvxColor StrokeColor { get; set; }
+
+        public SignaturePadOrientation Orientation { get; set; }
+
+        public System.Collections.Generic.IEnumerable<DrawPoint> Points { get; set; }
     }
 }

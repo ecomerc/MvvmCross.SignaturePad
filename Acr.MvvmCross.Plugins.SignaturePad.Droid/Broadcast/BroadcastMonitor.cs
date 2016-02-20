@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Broadcast {
     using Android.Content;
-    using Cirrious.CrossCore;
+    using global::MvvmCross.Platform;
 
     /// <summary>
     /// Broadcast monitor.

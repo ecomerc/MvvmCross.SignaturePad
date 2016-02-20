@@ -1,6 +1,6 @@
-﻿using System;
-using Cirrious.CrossCore;
-using Cirrious.CrossCore.Plugins;
+﻿using MvvmCross.Platform;
+using MvvmCross.Platform.Plugins;
+using System;
 
 
 namespace Acr.MvvmCross.Plugins.SignaturePad {
@@ -11,7 +11,6 @@ namespace Acr.MvvmCross.Plugins.SignaturePad {
         public void EnsureLoaded() {
             var manager = Mvx.Resolve<IMvxPluginManager>();
             manager.EnsurePlatformAdaptionLoaded<PluginLoader>();
-            manager.EnsurePlatformAdaptionLoaded<Cirrious.MvvmCross.Plugins.Color.PluginLoader>();
         }
     }
 }

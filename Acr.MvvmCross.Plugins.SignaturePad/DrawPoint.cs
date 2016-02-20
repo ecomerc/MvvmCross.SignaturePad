@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Acr.MvvmCross.Plugins.SignaturePad {
+namespace Acr.MvvmCross.Plugins.SignaturePad  {
    
     public class DrawPoint {
 
