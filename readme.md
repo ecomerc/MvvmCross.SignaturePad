@@ -1,69 +1,13 @@
-ACR MvvmCross Plugins
-=====================
+# Announcement
 
-I loved Stuart Lodge's MvvmCross, so I built several services on it that I've used
-on a few projects with great success.
+Fork of aritchies great library, he has split out all but one of the old MvvmCross plugins, and the development of that plugin contiues here. There is no Nuget package, yet. 
 
-* All plugins will be available through nuget
-* WinStore & WinPhone platform plugins are in the works
+The code has been upgraded to MvvmCross 4.
 
 
 
-##User Dialogs
-Allows for messagebox style dialogs
+#Signature Pad for iOS and Android (Windows Phone 8 support coming soon)
 
-* Action Sheet (multiple choice menu)
-* Alert
-* Prompt
-* Confirm
-* Loading
-* Progress
-* Toast
-
-#Powered By:
-* Android - Progress/Loading uses AndHUD
-* iOS - Progress/Loading uses BTProgressHUD
-* WinPhone - All dialogs by Coding4Fun Toolkit  
-
-
-##Bar Code Scanner
-Powered by Redth's ZXing.Net.Mobile
-
-    new MvxCommand(async () => {
-        var scan = Mvx.Resolve<IBarCodeScanner>();
-        var r = await scan.Read(flashlightText: "Turn on flashlight", cancelText: "Cancel");
-
-        Result = (r.Success 
-            ? String.Format("Barcode Result - Format: {0} - Code: {1}", r.Format, r.Code)
-            : "Cancelled barcode scan"
-        );
-    });
-
-
-##Network
-I needed something beyond what MvvmCross had out of the box.  I had 
-a requirement for detecting network state changes so that we could inform
-the user when they were working in an offline state.
-
-* INetworkService subscribes to INotifyPropertyChanged and monitors the device network status
-* You can also use MvxMessenger to subscribe to NetworkStatusChangedMessage to watch for changes outside of your view model
-
-
-##Settings
-A simple settings library that works differently than the traditional setting plugins out there.  Instead, my approach was to work
-with an observable dictionary.
-
-
-##Device Info
-Allows you to get the information of the device for auditing purposes
-
-* Device Manufacturer
-* Operating System and Version
-* Front and rear facing cameras
-* Screen Resolution
-
-
-##Signature Pad for iOS and Android (Windows Phone 8 support coming soon)
 Call for a signature pad dialog in 1 line of xplat code from a view model!
 
 	signatureService.RequestSignature(result => {
@@ -78,7 +22,7 @@ Call for a signature pad dialog in 1 line of xplat code from a view model!
 	signatureService.LoadSignature(drawPoints);
 
 
-#Configuration
+##Configuration
 
 	signatureService.DefaultConfiguration.ClearText = "Why clear?";
 
@@ -89,3 +33,48 @@ Call for a signature pad dialog in 1 line of xplat code from a view model!
 		CancelText = "No way!",
 		PromptText = "Right here"
 	});
+	
+	
+
+
+### Features
+
+
+* Draw signature
+* Save as image
+* Save as points
+
+* Add background image to signature pad
+
+## Supported Platforms
+
+* Xamarin (iOS Unified/Android)
+* Portable Class Libraries (Profile 259)
+
+## Unsupported Platforms
+
+* Universal Windows Platform (Win10/UWP) )
+* Windows Phone 8/8.1 - It is here, but parts of unimplemented.  NO FEATURE REQUESTS OR SUPPORT - YOU WANT IT, SUBMIT A TESTED PULL REQUEST!
+
+
+## Setup
+
+TBD
+
+#### iOS and Windows
+
+    TDB
+
+#### Android Initialization (In your main activity)
+
+    TDB
+
+### MvvmCross
+
+    TDB
+
+
+
+## FAQ
+
+TDB
