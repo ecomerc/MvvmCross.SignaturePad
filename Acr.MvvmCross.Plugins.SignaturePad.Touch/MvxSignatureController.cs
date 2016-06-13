@@ -5,6 +5,7 @@ using System.Drawing;
 using UIKit;
 using Foundation;
 using MvvmCross.Plugins.Color.iOS;
+using Acr.MvvmCross.Plugins.SignaturePad.Touch.Extensions;
 
 namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
 
@@ -37,7 +38,7 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
             if (!string.IsNullOrWhiteSpace(this.config.BackgroundImage))
                 this.view.Signature.BackgroundImageView.Image = UIImage.FromFile(this.config.BackgroundImage);
             this.view.Signature.BackgroundImageView.Alpha = this.config.BackgroundImageAlpha;
-            
+
             this.view.Signature.BackgroundImageView.Frame = this.view.Signature.Bounds;
             this.view.Signature.BackgroundImageView.AutoresizingMask = UIViewAutoresizing.All;
 
@@ -59,6 +60,11 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
             this.view.Signature.Layer.ShadowOffset = new SizeF(0, 0);
             this.view.Signature.Layer.ShadowOpacity = 1f;
 
+     
+
+
+
+
             this.view.SaveButton.SetTitle(this.config.SaveText, UIControlState.Normal);
             this.view.SaveButton.TouchUpInside += (sender, args) => {
                 if (this.view.Signature.IsBlank)
@@ -67,7 +73,9 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
                 var points = this.view
                     .Signature
                     .Points
-                    .Select(x => new DrawPoint((float)x.X, (float)x.Y));
+                    .Select(x => x.GetDrawPoint());
+
+
 
                 var tempPath = GetTempFilePath();
                 using (var image = this.view.Signature.GetImage(this.config.CropImage))
@@ -81,11 +89,41 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Touch {
 
             this.view.CancelButton.SetTitle(this.config.CancelText, UIControlState.Normal);
             this.view.CancelButton.TouchUpInside += (sender, args) => {
+
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine("Signature", "Finally has " + this.view.Signature.Points.Count() + " points");
+
+                foreach (var point in this.view.Signature.Points.Take(10))
+                    System.Diagnostics.Debug.WriteLine(" - " + point.ToString());
+#endif
                 this.DismissViewController(true, null);
                 this.onResult(new SignatureResult(true, null, null));
             };
         }
 
+        public override void ViewDidAppear(bool animated) {
+            base.ViewDidAppear(animated);
+
+            if (this.config.Points != null && this.config.Points.Count() > 0) {
+                System.Diagnostics.Debug.WriteLine("Signature", "Has " + this.config.Points.Count() + " points");
+                var points = this.config.Points.SkipWhile(p => p.IsEmpty || (p.X == 0 && p.Y == 0)).Select(i => i.GetPointF()).ToArray();
+
+#if DEBUG
+                this.view.Signature.LoadPoints(points);
+                foreach (var point in points.Take(10))
+                    System.Diagnostics.Debug.WriteLine(" - " + point.ToString());
+
+                this.view.Signature.SetNeedsDisplay();
+
+#endif
+            }
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("Signature", "Now has " + this.view.Signature.Points.Count() + " points");
+
+            foreach (var point in this.view.Signature.Points.Take(10))
+                System.Diagnostics.Debug.WriteLine(" - " + point.ToString());
+#endif   
+        }
 
         private static string GetTempFilePath() {
             var documents = UIDevice.CurrentDevice.CheckSystemVersion(8, 0)

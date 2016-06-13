@@ -25,6 +25,9 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Broadcast {
 
                 } else {
                     var points = pointsString.Select(i => DrawPoint.Parse(i));
+                    
+
+
                     service.Complete(new SignatureResult(
                         false,
                         () => new FileStream(fileStore, FileMode.Open, FileAccess.Read, FileShare.Read),

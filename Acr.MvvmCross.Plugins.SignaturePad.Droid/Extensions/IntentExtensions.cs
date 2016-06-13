@@ -19,6 +19,9 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions {
         public static void GetExtra(this Intent intent, Expression<Func<MvxColor>> property) {
             GetToProperty(property, (p, d) => new MvxColor(intent.GetIntExtra(p, d.ARGB)));
         }
+        public static void GetExtra(this Intent intent, Expression<Func<bool>> property) {
+            GetToProperty(property, (p, d) => intent.GetBooleanExtra(p, d));
+        }
 
         public static void GetExtra(this Intent intent, Expression<Func<string>> property) {
             GetToProperty(property, (p) => intent.GetStringExtra(p));
@@ -35,10 +38,18 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions {
             GetToProperty(property, (p, d) => {
                 
                 var list = intent.GetStringArrayExtra(p);
-                if (list != null && list.Count() > 0)
+
+                if (list != null && list.Count() > 0) {
+#if DEBUG
+                    Android.Util.Log.Info("Signature", "Has list " + list.Count());
+#endif
                     return list.Select(i => DrawPoint.Parse(i));
-                else
+                } else {
+#if DEBUG
+                    Android.Util.Log.Info("Signature", "No points");
+#endif
                     return null;
+                }
             });
         }
 
@@ -50,6 +61,10 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions {
         }
         public static void PutExtra(this Intent intent, Expression<Func<MvxColor>> property) {
             PutFromProperty(property, (p, v) => intent.PutExtra(p, v.ARGB));
+        }
+
+        public static void PutExtra(this Intent intent, Expression<Func<bool>> property) {
+            PutFromProperty(property, (p, v) => intent.PutExtra(p, v));
         }
 
         public static void PutExtra(this Intent intent, Expression<Func<string>> property) {
@@ -141,7 +156,9 @@ namespace Acr.MvvmCross.Plugins.SignaturePad.Droid.Extensions {
             if (@value != null) {
                 var expression = GetMemberInfo(property);
                 var path = PropertyPath(expression);
-
+#if DEBUG
+                Android.Util.Log.Info("Signature", "path has value: " + path);
+#endif
                 setter(path, @value);
             }
         }
