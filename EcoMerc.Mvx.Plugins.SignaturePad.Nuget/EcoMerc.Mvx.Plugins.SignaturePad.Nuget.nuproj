@@ -18,24 +18,28 @@
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
-    <Id>EcoMerc.Mvx.Plugins.SignaturePad.Nuget</Id>
-    <Version>1.0.0</Version>
-    <Title>EcoMerc.Mvx.Plugins.SignaturePad.Nuget</Title>
-    <Authors>peter</Authors>
-    <Owners>peter</Owners>
-    <Summary>EcoMerc.Mvx.Plugins.SignaturePad.Nuget</Summary>
+    <Id>EcoMerc.Mvx.Plugins.SignaturePad</Id>
+    <Version>2.2.0</Version>
+    <Title>MvvmCross SignaturePad Plugin</Title>
+    <Authors>EcoMerc, Allan Ritchie</Authors>
+    <Owners>EcoMerc</Owners>
+    <Summary>Signature Pad for MvvmCross.  Component by Xamarin.  Supports iOS and Android</Summary>
     <Description>EcoMerc.Mvx.Plugins.SignaturePad.Nuget</Description>
-    <ReleaseNotes>
-    </ReleaseNotes>
+    <ReleaseNotes>dsf</ReleaseNotes>
     <ProjectUrl>
     </ProjectUrl>
     <LicenseUrl>
     </LicenseUrl>
-    <Copyright>Copyright © peter</Copyright>
+    <Copyright>Copyright © EcoMerc</Copyright>
     <Tags>EcoMerc.Mvx.Plugins.SignaturePad.Nuget</Tags>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad.Droid\EcoMerc.Mvx.Plugins.SignaturePad.Droid.csproj" />
+    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad.Touch\EcoMerc.Mvx.Plugins.SignaturePad.Touch.csproj" />
+    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad\EcoMerc.Mvx.Plugins.SignaturePad.csproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>
