@@ -1,3 +1,5 @@
+# This fork has a working ios sample and MVVMCross updated to 4.3
+
 # Announcement
 
 Fork of aritchies great library, he has split out all but one of the old MvvmCross plugins, and the development of that plugin contiues here. There is no Nuget package, yet. 
