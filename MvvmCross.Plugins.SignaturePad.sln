@@ -3,10 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Common", ".Common", "{E950E9B4-0546-4D84-A7CC-F17474D230CC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Properties", "Properties", "{E950E9B4-0546-4D84-A7CC-F17474D230CC}"
 	ProjectSection(SolutionItems) = preProject
-		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
-		license.txt = license.txt
+		SolutionInfo.cs = SolutionInfo.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoMerc.Mvx.Plugins.SignaturePad", "MvvmCross.Plugins.SignaturePad\EcoMerc.Mvx.Plugins.SignaturePad.csproj", "{B2AF970D-D640-451C-95AF-92AF531B8C1E}"
@@ -22,6 +21,13 @@ Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "EcoMerc.Mvx.Plugins.Signatu
 		{B2AF970D-D640-451C-95AF-92AF531B8C1E} = {B2AF970D-D640-451C-95AF-92AF531B8C1E}
 		{B12D20AA-0EDF-4903-B385-BB8090848532} = {B12D20AA-0EDF-4903-B385-BB8090848532}
 		{1D5482F6-AA89-422C-9E34-88A8A1AD8AB6} = {1D5482F6-AA89-422C-9E34-88A8A1AD8AB6}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{DC866F2A-2C86-48D3-AE61-1A6E740AF1BC}"
+	ProjectSection(SolutionItems) = preProject
+		Build.proj = Build.proj
+		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
+		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
 	EndProjectSection
 EndProject
 Global

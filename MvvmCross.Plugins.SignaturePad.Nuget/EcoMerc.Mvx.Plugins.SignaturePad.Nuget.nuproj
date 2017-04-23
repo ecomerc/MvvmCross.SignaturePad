@@ -13,15 +13,64 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>060331c3-8ddf-4b52-b238-f548149287b2</ProjectGuid>
   </PropertyGroup>
+  
   <PropertyGroup>
-    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+    <NuProjPath Condition="!Exists('$(NuProjPath)\NuProj.props')">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
   </PropertyGroup>
+  
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\.build</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+  
+  <PropertyGroup>
+    <VersionDependsOn>$(VersionDependsOn);GetNuPkgVersion</VersionDependsOn>
+  </PropertyGroup>
+  
+  
+  <Target Name="GetNuPkgVersion">
+  
+    <PropertyGroup>
+      <VersionFile>$(SolutionDir)\Properties\SolutionInfo.cs</VersionFile>
+    </PropertyGroup>
+    <PropertyGroup>
+      <BuildVersion>$([System.DateTime]::Now.ToString(`yyyyMMdd`))</BuildVersion>
+      <RevisionVersion>$([System.DateTime]::Now.ToString(`HHmm`))</RevisionVersion>
+    </PropertyGroup>
+    <Message Text="Loading file:     $(VersionFile)" />
+    <ReadLinesFromFile File="$(VersionFile)">
+      <Output TaskParameter="Lines" ItemName="ItemsFromFile" />
+    </ReadLinesFromFile>
+    <Message Text="Searching for regex." />
+    <PropertyGroup>
+      <Pattern>assembly: AssemblyVersion\(.((\d+)\.(\d+))</Pattern>
+      <In>@(ItemsFromFile)</In>
+      <MajorMinor>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern)).Groups[1].Value)</MajorMinor>
+    </PropertyGroup>
+    <Message Text="Getting git version." />
+    <GitVersion LocalPath="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="CommitHash" PropertyName="GitRevision" />
+    </GitVersion>
+
+    <PropertyGroup>
+      <Version>$(MajorMinor).$(BuildVersion).$(RevisionVersion)</Version>
+    </PropertyGroup>
+    <PropertyGroup>
+      <Summary>$(Summary) $(GitRevision)-$(Configuration)</Summary>
+    </PropertyGroup>
+	
+  </Target>
+  
+  
+  
   <PropertyGroup Label="Configuration">
     <Id>EcoMerc.Mvx.Plugins.SignaturePad</Id>
     <Version>
     </Version>
-    <Title>MvvmCross SignaturePad Plugin</Title>
+    <Title>MvvmCross SignaturePad Plugin (Active)</Title>
     <Authors>EcoMerc, Allan Ritchie</Authors>
     <Owners>EcoMerc</Owners>
     <Summary>Signature Pad for MvvmCross.  Component by Xamarin.  Supports iOS and Android</Summary>
