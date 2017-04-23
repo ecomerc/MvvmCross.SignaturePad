@@ -96,7 +96,7 @@
     <Compile Include="WinPhoneSignatureService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad\Acr.MvvmCross.Plugins.SignaturePad.csproj">
+    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad\EcoMerc.Mvx.Plugins.SignaturePad.csproj">
       <Project>{b2af970d-d640-451c-95af-92af531b8c1e}</Project>
       <Name>Acr.MvvmCross.Plugins.SignaturePad</Name>
     </ProjectReference>

@@ -1,12 +1,8 @@
 # Announcement
 
-Fork of aritchies great library, he has split out all but one of the old MvvmCross plugins, and the development of that plugin contiues here. There is no Nuget package, yet. 
+This is a fork from https://github.com/aritchie/acrmvvmcross that has a working ios sample and MVVMCross upgraded to 4.3
 
-The code has been upgraded to MvvmCross 4.
-
-
-
-#Signature Pad for iOS and Android (Windows Phone 8 support coming soon)
+# Signature Pad for iOS and Android
 
 Call for a signature pad dialog in 1 line of xplat code from a view model!
 
@@ -21,7 +17,6 @@ Call for a signature pad dialog in 1 line of xplat code from a view model!
 
 	signatureService.LoadSignature(drawPoints);
 
-
 ##Configuration
 
 	signatureService.DefaultConfiguration.ClearText = "Why clear?";
@@ -33,9 +28,6 @@ Call for a signature pad dialog in 1 line of xplat code from a view model!
 		CancelText = "No way!",
 		PromptText = "Right here"
 	});
-	
-	
-
 
 ### Features
 
@@ -51,30 +43,20 @@ Call for a signature pad dialog in 1 line of xplat code from a view model!
 * Xamarin (iOS Unified/Android)
 * Portable Class Libraries (Profile 259)
 
-## Unsupported Platforms
-
-* Universal Windows Platform (Win10/UWP) )
-* Windows Phone 8/8.1 - It is here, but parts of unimplemented.  NO FEATURE REQUESTS OR SUPPORT - YOU WANT IT, SUBMIT A TESTED PULL REQUEST!
-
-
 ## Setup
 
-TBD
+#### iOS
+Creat a SignaturePadPluginBootstrap class inside Bootstrap folder
 
-#### iOS and Windows
-
-    TDB
-
-#### Android Initialization (In your main activity)
-
-    TDB
+    public class SignaturePadPluginBootstrap
+        : MvxLoaderPluginBootstrapAction<Acr.MvvmCross.Plugins.SignaturePad.PluginLoader, Acr.MvvmCross.Plugins.SignaturePad.Touch.Plugin>
+    {
+    }
 
 ### MvvmCross
+In your App class, override the LoadPlugins method to include
 
-    TDB
-
-
-
-## FAQ
-
-TDB
+     public override void LoadPlugins(IMvxPluginManager pluginManager) {
+            base.LoadPlugins(pluginManager);
+            pluginManager.EnsurePlatformAdaptionLoaded<Acr.MvvmCross.Plugins.SignaturePad.PluginLoader>();
+        }

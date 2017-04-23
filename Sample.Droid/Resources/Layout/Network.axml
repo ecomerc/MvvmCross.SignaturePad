@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <CheckBox
+        local:MvxBind="Checked Network.IsConnected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Internet Available?" />
+    <CheckBox
+        local:MvxBind="Checked Network.IsWifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="WIFI" />
+    <CheckBox
+        local:MvxBind="Checked Network.IsMobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Mobile" />
+    <TextView
+        android:text="Host Test"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        local:MvxBind="Text Host"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        local:MvxBind="Click Ping"
+        android:text="Ping Test"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
