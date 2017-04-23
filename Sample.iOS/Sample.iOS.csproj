@@ -91,13 +91,13 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad.Touch\EcoMerc.Mvx.Plugins.SignaturePad.Touch.csproj">
+    <ProjectReference Include="..\MvvmCross.Plugins.SignaturePad.iOS\EcoMerc.Mvx.Plugins.SignaturePad.iOS.csproj">
       <Project>{b12d20aa-0edf-4903-b385-bb8090848532}</Project>
-      <Name>EcoMerc.Mvx.Plugins.SignaturePad.Touch</Name>
+      <Name>EcoMerc.Mvx.Plugins.SignaturePad.iOS</Name>
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
-    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad\EcoMerc.Mvx.Plugins.SignaturePad.csproj">
+    <ProjectReference Include="..\MvvmCross.Plugins.SignaturePad\EcoMerc.Mvx.Plugins.SignaturePad.csproj">
       <Project>{b2af970d-d640-451c-95af-92af531b8c1e}</Project>
       <Name>EcoMerc.Mvx.Plugins.SignaturePad</Name>
     </ProjectReference>
