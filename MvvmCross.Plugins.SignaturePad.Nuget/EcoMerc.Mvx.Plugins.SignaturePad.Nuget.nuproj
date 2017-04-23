@@ -13,32 +13,22 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>060331c3-8ddf-4b52-b238-f548149287b2</ProjectGuid>
   </PropertyGroup>
-  
   <PropertyGroup Condition="'$(NuGetPackageRoot)' == ''">
     <NuGetPackageRoot>$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
     <NuProjPath>$(NuGetPackageRoot)NuProj\0.11.17-beta\tools\</NuProjPath>
   </PropertyGroup>
-  
-  
   <PropertyGroup>
     <NuProjPath Condition="!Exists('$(NuProjPath)\NuProj.props')">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
   </PropertyGroup>
-  
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
-  
   <PropertyGroup>
     <MSBuildCommunityTasksPath>$(SolutionDir)\.build</MSBuildCommunityTasksPath>
   </PropertyGroup>
-  
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
-  
   <PropertyGroup>
     <VersionDependsOn>$(VersionDependsOn);GetNuPkgVersion</VersionDependsOn>
   </PropertyGroup>
-  
-  
   <Target Name="GetNuPkgVersion">
-  
     <PropertyGroup>
       <VersionFile>$(SolutionDir)\Properties\SolutionInfo.cs</VersionFile>
     </PropertyGroup>
@@ -60,18 +50,13 @@
     <GitVersion LocalPath="$(MSBuildProjectDirectory)">
       <Output TaskParameter="CommitHash" PropertyName="GitRevision" />
     </GitVersion>
-
     <PropertyGroup>
       <Version>$(MajorMinor).$(BuildVersion).$(RevisionVersion)</Version>
     </PropertyGroup>
     <PropertyGroup>
       <Summary>$(Summary) $(GitRevision)-$(Configuration)</Summary>
     </PropertyGroup>
-	
   </Target>
-  
-  
-  
   <PropertyGroup Label="Configuration">
     <Id>EcoMerc.Mvx.Plugins.SignaturePad</Id>
     <Version>
@@ -95,9 +80,9 @@
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad.Droid\EcoMerc.Mvx.Plugins.SignaturePad.Droid.csproj" />
-    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad.Touch\EcoMerc.Mvx.Plugins.SignaturePad.Touch.csproj" />
-    <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad\EcoMerc.Mvx.Plugins.SignaturePad.csproj" />
+    <ProjectReference Include="..\MvvmCross.Plugins.SignaturePad.Droid\EcoMerc.Mvx.Plugins.SignaturePad.Droid.csproj" />
+    <ProjectReference Include="..\MvvmCross.Plugins.SignaturePad.iOS\EcoMerc.Mvx.Plugins.SignaturePad.iOS.csproj" />
+    <ProjectReference Include="..\MvvmCross.Plugins.SignaturePad\EcoMerc.Mvx.Plugins.SignaturePad.csproj" />
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
 </Project>

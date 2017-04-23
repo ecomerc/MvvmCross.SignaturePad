@@ -87,9 +87,8 @@
       <HintPath>..\packages\MvvmCross.Plugin.Color.4.3.0\lib\MonoAndroid\MvvmCross.Plugins.Color.Droid.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SignaturePad, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Controls.SignaturePad.1.5.1\lib\MonoAndroid\SignaturePad.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="SignaturePad">
+      <HintPath>..\Components\signature-pad-1.5.1\lib\android\SignaturePad.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

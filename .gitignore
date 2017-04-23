@@ -246,3 +246,4 @@ ModelManifest.xml
 *.bak
 Thumbs.db
 *.orig
+Components/*/samples/
