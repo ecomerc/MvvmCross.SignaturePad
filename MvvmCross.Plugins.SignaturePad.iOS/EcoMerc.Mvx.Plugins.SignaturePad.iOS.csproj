@@ -76,8 +76,8 @@
       <HintPath>..\packages\MvvmCross.Plugin.Color.4.3.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Color.iOS.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SignaturePad, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Controls.SignaturePad.1.4.0\lib\Xamarin.iOS\SignaturePad.dll</HintPath>
+    <Reference Include="SignaturePad, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.Controls.SignaturePad.1.5.1\lib\Xamarin.iOS\SignaturePad.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">

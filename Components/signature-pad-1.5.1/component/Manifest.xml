@@ -4,12 +4,13 @@
   <publisher>Xamarin, Inc.</publisher>
   <publisher-url>http://xamarin.com/</publisher-url>
   <src-url>https://github.com/xamarin/SignaturePad</src-url>
-  <version>1.4.0.0</version>
+  <version>1.5.1</version>
   <summary>Makes capturing, saving, and displaying signatures extremely simple.</summary>
   <packages>
-    <package id="Xamarin.Controls.SignaturePad" version="1.4.0" framework="android" />
-    <package id="Xamarin.Controls.SignaturePad" version="1.4.0" framework="ios-unified" />
-    <package id="Xamarin.Controls.SignaturePad" version="1.4.0" framework="wp8" />
+    <package id="Xamarin.Controls.SignaturePad" version="1.5.1" framework="android" />
+    <package id="Xamarin.Controls.SignaturePad" version="1.5.1" framework="ios-unified" />
+    <package id="Xamarin.Controls.SignaturePad" version="1.5.1" framework="wp8" />
+    <package id="Xamarin.Controls.SignaturePad" version="1.5.1" framework="uwp" />
   </packages>
   <screenshots>
     <img src="screenshots/signature-ios.jpg" title="signature-ios" />
@@ -26,6 +27,10 @@
     <sample id="Sample.WP8">
       <name>Windows Phone Sample</name>
       <summary>Windows Phone Sample</summary>
+    </sample>
+    <sample id="Sample.UWP">
+      <name>UWP Sample</name>
+      <summary>UWP Sample</summary>
     </sample>
     <sample id="Sample.Forms">
       <name>Xamarin.Forms Sample</name>
