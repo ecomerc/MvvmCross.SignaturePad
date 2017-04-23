@@ -14,6 +14,10 @@
     <ProjectGuid>060331c3-8ddf-4b52-b238-f548149287b2</ProjectGuid>
   </PropertyGroup>
   
+  <PropertyGroup Condition="'$(NuGetPackageRoot)' == ''">
+    <NuGetPackageRoot>$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+    <NuProjPath>$(NuGetPackageRoot)NuProj\0.10.48-beta-gea4a31bbc5\tools\</NuProjPath>
+  </PropertyGroup>
   <PropertyGroup>
     <NuProjPath Condition="!Exists('$(NuProjPath)\NuProj.props')">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
   </PropertyGroup>
