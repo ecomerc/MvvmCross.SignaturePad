@@ -53,27 +53,27 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MvvmCross.Core, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\Xamarin.iOS10\MvvmCross.Core.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Core.4.4.0\lib\Xamarin.iOS10\MvvmCross.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MvvmCross.iOS, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\Xamarin.iOS10\MvvmCross.iOS.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Core.4.4.0\lib\Xamarin.iOS10\MvvmCross.iOS.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MvvmCross.Platform, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\Xamarin.iOS10\MvvmCross.Platform.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Platform.4.4.0\lib\Xamarin.iOS10\MvvmCross.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MvvmCross.Platform.iOS, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\Xamarin.iOS10\MvvmCross.Platform.iOS.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Platform.4.4.0\lib\Xamarin.iOS10\MvvmCross.Platform.iOS.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MvvmCross.Plugins.Color, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Plugin.Color.4.3.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Color.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Plugin.Color.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Color.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MvvmCross.Plugins.Color.iOS, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Plugin.Color.4.3.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Color.iOS.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Plugin.Color.4.4.0\lib\Xamarin.iOS10\MvvmCross.Plugins.Color.iOS.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SignaturePad, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">

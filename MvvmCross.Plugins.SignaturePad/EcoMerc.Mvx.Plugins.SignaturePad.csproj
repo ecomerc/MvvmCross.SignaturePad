@@ -87,21 +87,21 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="MvvmCross.Core, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Core.4.3.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Core.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Core.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MvvmCross.Platform, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Platform.4.3.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Platform.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Platform.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MvvmCross.Plugins.Color, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Plugin.Color.4.3.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.Color.dll</HintPath>
+      <HintPath>..\packages\MvvmCross.Plugin.Color.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Plugins.Color.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\NuProj.Common.0.11.17-beta\build\portable-net+win+wpa+wp+sl+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\NuProj.Common.targets" Condition="Exists('..\packages\NuProj.Common.0.11.17-beta\build\portable-net+win+wpa+wp+sl+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\NuProj.Common.targets')" />
