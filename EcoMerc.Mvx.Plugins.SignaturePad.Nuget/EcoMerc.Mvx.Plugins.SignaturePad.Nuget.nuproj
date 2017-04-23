@@ -19,22 +19,25 @@
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
     <Id>EcoMerc.Mvx.Plugins.SignaturePad</Id>
-    <Version>2.2.0</Version>
+    <Version>
+    </Version>
     <Title>MvvmCross SignaturePad Plugin</Title>
     <Authors>EcoMerc, Allan Ritchie</Authors>
     <Owners>EcoMerc</Owners>
     <Summary>Signature Pad for MvvmCross.  Component by Xamarin.  Supports iOS and Android</Summary>
-    <Description>EcoMerc.Mvx.Plugins.SignaturePad.Nuget</Description>
-    <ReleaseNotes>dsf</ReleaseNotes>
-    <ProjectUrl>
-    </ProjectUrl>
-    <LicenseUrl>
-    </LicenseUrl>
+    <Description>Signature Pad for MvvmCross.  Component by Xamarin.  Supports iOS and Android</Description>
+    <ReleaseNotes>
+    </ReleaseNotes>
+    <ProjectUrl>https://github.com/ecomerc/MvvmCross.SignaturePad</ProjectUrl>
+    <LicenseUrl>http://opensource.org/licenses/ms-pl.html</LicenseUrl>
     <Copyright>Copyright © EcoMerc</Copyright>
-    <Tags>EcoMerc.Mvx.Plugins.SignaturePad.Nuget</Tags>
+    <Tags>xamarin mvvmcross signature android ios winphone</Tags>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="MonoAndroid10\SignaturePadPluginBootstrap.cs.pp" />
+    <Content Include="project.json" />
     <Content Include="Readme.txt" />
+    <Content Include="Xamarin.iOS10\TouchSignaturePadPluginBootstrap.cs.pp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Acr.MvvmCross.Plugins.SignaturePad.Droid\EcoMerc.Mvx.Plugins.SignaturePad.Droid.csproj" />

@@ -1,0 +1,11 @@
+﻿{
+  "dependencies": {
+    "NuProj": "0.11.17-beta"
+  },
+  "frameworks": {
+    "net451": {}
+  },
+  "runtimes": {
+    "win": {}
+  }
+}
